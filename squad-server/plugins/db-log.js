@@ -4,7 +4,49 @@ import BasePlugin from './base-plugin.js';
 
 import FactionSides from './lookup/factions-lookup.js';
 
+import CountryFlags from './lookup/country-flags-lookup.js';
+
+import https from 'https';
+
 const { DataTypes, QueryTypes } = Sequelize;
+
+function getCountryByIP(ip) {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.country.is',
+      path: `/${ip}`,
+      method: 'GET',
+    };
+
+    const req = https.request(options, (res) => {
+      if (res.statusCode !== 200) {
+        // console.debug('Non-success status:', res.statusCode);
+        return resolve(null);
+      }
+
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const country = json.country;
+          const flag = CountryFlags[country] || '';
+          resolve(country + flag);
+        } catch (e) {
+          // console.debug('JSON parse error:', e);
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      // console.debug('Request error:', err);
+      resolve(null);
+    });
+
+    req.end();
+  });
+}
 
 export default class DBLog extends BasePlugin {
   static get description() {
@@ -169,6 +211,9 @@ export default class DBLog extends BasePlugin {
           type: DataTypes.STRING
         },
         lastIP: {
+          type: DataTypes.STRING
+        },
+        lastIPCountry: {
           type: DataTypes.STRING
         }
       },
@@ -773,12 +818,14 @@ export default class DBLog extends BasePlugin {
 	}
 
   async onPlayerConnected(info) {
+    let CountryCode = await getCountryByIP(info.ip);
     await this.models.Player.upsert(
       {
         eosID: info.player.eosID,
         steamID: info.player.steamID,
         lastName: info.player.name,
-        lastIP: info.ip
+        lastIP: info.ip,
+        lastIPCountry: CountryCode
       },
       {
         conflictFields: ['steamID']
