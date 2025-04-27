@@ -4,8 +4,6 @@ import BasePlugin from './base-plugin.js';
 
 import FactionSides from './lookup/factions-lookup.js';
 
-import CountryFlags from './lookup/country-flags-lookup.js';
-
 import https from 'https';
 
 const { DataTypes, QueryTypes } = Sequelize;
@@ -30,7 +28,7 @@ function getCountryByIP(ip) {
         try {
           const json = JSON.parse(data);
           const country = json.country;
-          const flag = CountryFlags[country] || '';
+          const flag = country.toUpperCase().split('').map(char => String.fromCodePoint(char.charCodeAt(0) + 127397)).join('') || '';
           resolve(country + flag);
         } catch (e) {
           // console.debug('JSON parse error:', e);
