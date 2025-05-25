@@ -409,9 +409,15 @@ export default class DBLog extends BasePlugin {
         attackerTeams: {
           type: DataTypes.STRING
         },
+		attackerTeamID: {
+          type: DataTypes.INTEGER
+        },
         teamkill: {
           type: DataTypes.BOOLEAN
-        }
+        },
+		weapon: {
+		  type: DataTypes.STRING
+		}
       },
       {
         charset: 'utf8mb4',
@@ -811,7 +817,9 @@ export default class DBLog extends BasePlugin {
 			attacker: player ? player.steamID : null,
 			attackerName: player ? player.name : null,
 			attackerTeams: player ? player.teamName : null,
-			teamkill: isTeamkill
+			teamkill: isTeamkill,
+			weapon: info.weapon ? info.weapon : null,
+			attackerTeamID: player ? player.teamID : null
 		});
 	}
 
