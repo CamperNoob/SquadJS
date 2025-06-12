@@ -1,6 +1,6 @@
 import https from 'https';
 
-export async function getCountryByIP(ip) {
+export default async function getCountryByIP(ip) {
   return new Promise((resolve) => {
     const options = {
       hostname: 'api.country.is',

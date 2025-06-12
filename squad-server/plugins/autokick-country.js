@@ -19,10 +19,10 @@ export default class AutokickCountry extends BasePlugin {
       countryCode: {
         required: true,
         description: 'Two letter ISO code of country to be autokicked',
-        default: 'RU'
+        default: ''
       },
       kickMessage: {
-        required: true,
+        required: false,
         description: 'Message to show to kicked player',
         default: 'This server does not allow VPN usage'
       },
