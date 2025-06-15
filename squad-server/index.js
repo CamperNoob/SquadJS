@@ -305,7 +305,7 @@ export default class SquadServer extends EventEmitter {
 
       this.emit('PLAYER_POSSESS', data);
 	  
-	  let match = data.possessClassname.match(/(?:BP_Soldier_|Default__BP_Soldier_)([a-zA-Z]+)_[a-zA-Z0-9]+/);
+	  let match = data.possessClassname.match(/(?:BP_Soldiers?_|Default__BP_Soldiers?_)([a-zA-Z]+)_[a-zA-Z0-9_]+/);
 	  if (match) {
 		  if (data.player) data.player.teamName = SoldierLookup[match[1]];
 		  this.emit('PLAYER_SOLDIER_POSSESS', data);
