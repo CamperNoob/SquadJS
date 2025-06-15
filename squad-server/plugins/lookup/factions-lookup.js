@@ -1,16 +1,16 @@
 export default {
-	"ADF": "BLUFOR",
-	"CAF": "BLUFOR",
-	"BAF": "BLUFOR",
+	"ADF": "ADF",
+	"CAF": "CAF",
+	"BAF": "BAF",
 	"INS": "INS",
-	"MEA": "MEATLF",
+	"MEA": "TLF",
 	"IMF": "IMF",
 	"PLA": "PAC",
 	"PLANMC": "PAC",
 	"RGF": "RU",
-	"TLF": "MEATLF",
-	"USA": "BLUFOR",
-	"USMC": "BLUFOR",
+	"TLF": "TLF",
+	"USA": "USA",
+	"USMC": "USA",
 	"RAF": "RU",
 	"WPMC": "WPMC"
 }
